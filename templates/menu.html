@@ -4,29 +4,35 @@
 
 <h1>Tic Tac Toe</h1>
 
+<button onclick="goToSignUpPage()">Sign Up</button>
+<script>
+    function goToSignUpPage() {
+      window.location.href = "/SignUp";
+    }
+  </script>
+
+<br>
+<br>
+
+<button onclick="goToLogInPage()">Log In</button>
+<script>
+    function goToLogInPage() {
+      window.location.href = "/LogIn";
+    }
+  </script>
+
+<br>
+<br>
+
 <form action="/players/list" method="GET">
   <button type="submit">View players</button>
 </form>
 
 <ul>
   {% for player in players %}
-    <li>{{ player.id }} - {{ player.firstname }} - {{ player.lastname }}</li>
+    <li>{{ player.id }} - {{ player.username }} - {{ player.password }}</li>
   {% endfor %}
 </ul>
-
-<br>
-<br>
-<br>
-
-<form action="/players/add" method="POST">
-  <label for="firstname">First Name:</label>
-  <input type="text" id="firstname" name="firstname"><br><br>
-  
-  <label for="lastname">Last Name:</label>
-  <input type="text" id="lastname" name="lastname"><br><br>
-
-  <button type="submit">Add Player</button>
-</form>
 
 <br>
 <br>
