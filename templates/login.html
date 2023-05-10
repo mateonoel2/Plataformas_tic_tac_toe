@@ -12,5 +12,9 @@
     <button type="submit">PLAY</button>
 </form>
 
+{% for mesg in get_flashed_messages() %}
+<p>{{ mesg }}</p>
+{% endfor %}
+
 
 </html>
