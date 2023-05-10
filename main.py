@@ -27,15 +27,6 @@ class Player(db.Model):
     def check_password(self, password):
         return self.password == password
     
-class Game(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    player_id = db.Column(db.Integer, db.ForeignKey('player.id'), nullable=False)
-    player = db.relationship('Player', backref=db.backref('games', lazy=True))
-    player2_id = db.Column(db.Integer, db.ForeignKey('player.id'), nullable=False)
-    player2 = db.relationship('Player', backref=db.backref('games', lazy=True))
-
-    def __repr__(self):
-        return f'<Game {self.id}>'
 
 with app.app_context():
     db.create_all()
