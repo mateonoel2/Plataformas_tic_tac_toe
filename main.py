@@ -1,6 +1,5 @@
 from dataclasses import dataclass
 from flask import Flask, jsonify, request, render_template, redirect, flash
-from flask_login import LoginManager
 from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
@@ -22,13 +21,21 @@ class Player(db.Model):
     username = db.Column(db.String(100), nullable=False)
     password = db.Column(db.String(100), nullable=False)
     
-
     def __repr__(self):
         return f'<Player {self.username}>'
     
     def check_password(self, password):
         return self.password == password
     
+class Game(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    player_id = db.Column(db.Integer, db.ForeignKey('player.id'), nullable=False)
+    player = db.relationship('Player', backref=db.backref('games', lazy=True))
+    player2_id = db.Column(db.Integer, db.ForeignKey('player.id'), nullable=False)
+    player2 = db.relationship('Player', backref=db.backref('games', lazy=True))
+
+    def __repr__(self):
+        return f'<Game {self.id}>'
 
 with app.app_context():
     db.create_all()
@@ -118,18 +125,3 @@ def delete_player(player_id):
     db.session.delete(player)
     db.session.commit()
     return f"Player with ID {player_id} has been deleted."
-
-# @app.route('/players/update',  methods = ['PUT'])
-# def route_update_player():
-#     player = request.get_json()
-#     return update_player(player)
-
-# def update_player(player_id, name=None, age=None):
-#     player = Player.query.get(player_id)
-#     if player is not None:
-#         if name is not None:
-#             player.name = name
-#         if age is not None:
-#             player.age = age
-#         db.session.commit()
-#     return
