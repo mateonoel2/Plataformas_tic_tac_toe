@@ -10,21 +10,17 @@
         var username = document.getElementById("username").value;
         var password = document.getElementById("password").value;
         var data = { "username": username, "password": password };
+
         fetch('/login', {
           method: 'POST',
           body: JSON.stringify(data),
           headers:{
             'Content-Type': 'application/json'
           }
-        }).then(function(response) {
-          if (response.redirected) {
-            window.location.href = response.url;
-          } else {
-            response.text().then(function(message) {
-              document.getElementById("message").innerText = message;
-            });
-          }
-        });
+        }).then(response => response.text())
+          .then(html => {
+              document.body.innerHTML = html;
+          })
       }
     </script>
   </head>
@@ -39,6 +35,12 @@
     <input type="password" id="password" name="password" required>
     <br>
     <button type="button" onclick="login()">Login</button>
-  </body>
+ 
+
+  {% for mesg in get_flashed_messages() %}
+  <p>{{ mesg }}</p>
+  {% endfor %}
+
+</body>
 
 </html>

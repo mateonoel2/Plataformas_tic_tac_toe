@@ -97,7 +97,8 @@ def login2():
     if player and player.check_password(data["password"]):
         return redirect('/game')
     else:
-        return 'Invalid username or password'
+        flash('Invalid username or password')
+        return redirect('/LogIn')
 
 
 @app.route('/players/delete/<player_id>', methods=['GET','DELETE'])
