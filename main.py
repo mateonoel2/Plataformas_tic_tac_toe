@@ -72,8 +72,9 @@ def route_get_player(player_id):
 
 @app.route('/players/add',  methods = ['POST'])
 def route_add_player():
-    username = request.form['username']
-    password = request.form['password']
+    data = request.get_json()
+    username = data['username']
+    password = data['password']
     player = Player(username=username, password=password)
     db.session.add(player)
     db.session.commit()
@@ -81,7 +82,8 @@ def route_add_player():
 
 @app.route('/players/delete', methods=['POST', 'DELETE'])
 def route_delete_player():
-    player_id = request.form['player_id']
+    data = request.get_json()
+    player_id = data['player_id']
     player = Player.query.get(player_id)
     if player is None:
         error_message = f"No player with ID {player_id} found."

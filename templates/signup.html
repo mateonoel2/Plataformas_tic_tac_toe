@@ -1,6 +1,24 @@
 <html>
 
 <h1>Create account</h1>
+<script>
+  function signup() {
+    var username = document.getElementById("username").value;
+    var password = document.getElementById("password").value;
+    var data = { "username": username, "password": password };
+
+    fetch('/players/add', {
+      method: 'POST',
+      body: JSON.stringify(data),
+      headers:{
+        'Content-Type': 'application/json'
+      }
+    }).then(response => response.text())
+      .then(html => {
+          document.body.innerHTML = html;
+      })
+  }
+</script>
 
 <form action="/players/add" method="POST">
     <label for="username">username:</label>
@@ -9,7 +27,7 @@
     <label for="password">password:</label>
     <input type="password" id="password" name="password"><br><br>
   
-    <button type="submit">Add Player</button>
+    <button type="button" onclick="signup()">Add player</button>
   </form>
 
 
