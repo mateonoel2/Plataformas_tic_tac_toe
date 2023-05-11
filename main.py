@@ -90,16 +90,15 @@ def route_delete_player():
     db.session.commit()
     return redirect('/')
 
-@app.route('/login', methods=['GET', 'POST'])
+@app.route('/login', methods=['POST'])
 def login2():
-    username = request.form['username']
-    password = request.form['password']
-    player = Player.query.filter_by(username=username).first()
-    if player and player.check_password(password):
+    data = request.get_json()
+    player = Player.query.filter_by(username=data["username"]).first()
+    if player and player.check_password(data["password"]):
         return redirect('/game')
     else:
-        flash('Invalid username or password')
-        return redirect('/LogIn')
+        return 'Invalid username or password'
+
 
 @app.route('/players/delete/<player_id>', methods=['GET','DELETE'])
 def route_delete_player2(player_id):

@@ -1,20 +1,44 @@
-<html>
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
 
-<h1>Log In</h1>
-
-<form action="/login" method="POST">
-    <label for="username">username:</label>
-    <input type="text" id="username" name="username"><br><br>
+    <title>Login</title>
     
-    <label for="password">password:</label>
-    <input type="password" id="password" name="password"><br><br>
-  
-    <button type="submit">PLAY</button>
-</form>
+    <script>
+      function login() {
+        var username = document.getElementById("username").value;
+        var password = document.getElementById("password").value;
+        var data = { "username": username, "password": password };
+        fetch('/login', {
+          method: 'POST',
+          body: JSON.stringify(data),
+          headers:{
+            'Content-Type': 'application/json'
+          }
+        }).then(function(response) {
+          if (response.redirected) {
+            window.location.href = response.url;
+          } else {
+            response.text().then(function(message) {
+              document.getElementById("message").innerText = message;
+            });
+          }
+        });
+      }
+    </script>
+  </head>
 
-{% for mesg in get_flashed_messages() %}
-<p>{{ mesg }}</p>
-{% endfor %}
-
+  <body>
+    <h1>Login</h1>
+    <div id="message"></div>
+    <label for="username">Username:</label>
+    <input type="text" id="username" name="username" required>
+    <br>
+    <label for="password">Password:</label>
+    <input type="password" id="password" name="password" required>
+    <br>
+    <button type="button" onclick="login()">Login</button>
+  </body>
 
 </html>
