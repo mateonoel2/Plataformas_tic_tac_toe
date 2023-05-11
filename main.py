@@ -110,6 +110,14 @@ def route_list_players():
     players = Player.query.all()
     return render_template('menu.html', players=players)
 
+@app.route('/players/create', methods=['POST'])
+def route_create_player():
+    player = request.get_json()
+    new_player = Player(username = player['username'], password = player['password'])
+    db.session.add(new_player)
+    db.session.commit()
+    return jsonify(new_player)
+
 def get_players():
     players = Player.query.all()
     return jsonify(players)
