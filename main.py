@@ -78,7 +78,7 @@ def route_add_player():
     player = Player(username=username, password=password)
     db.session.add(player)
     db.session.commit()
-    return redirect('/')
+    return 'SUCCESS'
 
 @app.route('/players/delete', methods=['POST', 'DELETE'])
 def route_delete_player():

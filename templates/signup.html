@@ -14,13 +14,17 @@
         'Content-Type': 'application/json'
       }
     }).then(response => response.text())
-      .then(html => {
-          document.body.innerHTML = html;
+      .then(text => {
+          if (text === "SUCCESS") {
+              window.location.href = "/";
+          } else {
+              document.body.innerHTML = text;
+          }
       })
   }
 </script>
 
-<form action="/players/add" method="POST">
+  <form>
     <label for="username">username:</label>
     <input type="text" id="username" name="username"><br><br>
     
